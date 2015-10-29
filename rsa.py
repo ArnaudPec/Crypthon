@@ -1,5 +1,5 @@
 #RSA
-p = 245647973
+p = 24564797371
 q = 145647973
 
 # Return totient of n

@@ -2,4 +2,4 @@
 
 My tiny implementation of classic asymmetric ciphers.
 
-Note : does not intend to be secure 
+Note : does not intend to be secure nor seek performance

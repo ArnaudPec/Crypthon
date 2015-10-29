@@ -1,7 +1,7 @@
-# My tiny implementation of asymetric ciphers
+# My tiny implementation of asymmetric ciphers
 
 from math import gcd, log2
-from numpy import random
+import random
 
 #Implement a good primality test
 
@@ -17,28 +17,37 @@ def fermat_prime_test(n):
             return False
 
 # Miller rabin primality test
-def miller_rab_prime_test(arg):
+# Probabilistic test
+# Inputs
+# n : tested number
+# r : number of round, recommended value around 40
+def miller_rab_prime_test(n,r):
     if n <= 1 :
         return False
     else :
+        k,m = decompose(n-1)
 
-    return True
+        for _ in range(r):
+            a = random.randrange(2,n-1)
+            x = pow(a, m, n)
+            if x == 1 or x == n - 1:
+                continue
+            for _ in range(k - 1):
+                #x = x* x % n
+                x = pow(x, 2, n)
+                if x == n - 1:
+                    break
+            else:
+                return False
+        return True
 
+def decompose(n):
+    b=0
+    while n % 2 == 0 :
+      n //= 2
+      b += 1
+    return b, n
 
-'''
-
-    Input: integer n > 1.
-
-    Find the smallest r such that Or(n) > (log2 n)2.
-    If 1 < gcd(a,n) < n for some a ≤ r, output composite.
-    If n ≤ r, output prime.
-    For a = 1 to \scriptstyle\lfloor \scriptstyle{\sqrt{\varphi(r)}\log_2(n)} \scriptstyle\rfloor do
-
-        if (X+a)n≠ Xn+a (mod Xr − 1,n), output composite;
-
-    Output prime.
-
-'''
 # Aks primality test
 # def aks_prime_test(n):
 #     if n <= 1 :
@@ -53,3 +62,15 @@ def miller_rab_prime_test(arg):
 #             b+=1
 #             if a.is_integer() :
 #                 return False
+
+# Really basic prime generator
+
+def prime_gen(n,max):
+    for x in range(n, max +1 ) :
+        isPrime = True
+        for y in range(2, int(x ** 0.5) +1):
+            if x % y == 0 :
+                isPrime = False
+                break
+        if isPrime :
+            print(x)
