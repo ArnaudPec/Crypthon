@@ -11,7 +11,8 @@ def fermat_prime_test(n):
         return False
     else :
         a = random.random_integers(1,n)
-        if a**(n-1) % n == 1:
+        # if a**(n-1) % n == 1: TO SLOW
+        if pow(a,n-1,n) == 1 : 
             return True
         else :
             return False
@@ -20,7 +21,7 @@ def fermat_prime_test(n):
 # Probabilistic test
 # Inputs
 # n : tested number
-# r : number of round, recommended value around 40
+# r : number of round, recommended value around 45
 def miller_rab_prime_test(n,r):
     if n <= 1 :
         return False
@@ -48,6 +49,32 @@ def decompose(n):
       b += 1
     return b, n
 
+# Really basic prime generator
+
+def prime_gen(n,max):
+    for x in range(n, max +1 ) :
+        isPrime = True
+        for y in range(2, int(x ** 0.5) +1):
+            if x % y == 0 :
+                isPrime = False
+                break
+        if isPrime :
+            print(x)
+
+# Random prime generator
+# returns a prime between 2^n and 2^+1 (for n>32)
+
+def rand_prime(n):
+    if n<32:
+        n=32
+    k = random.randrange(1,n-1)
+    for i in range(pow(2,n)+pow(2,k),pow(2,n+1)):
+        if miller_rab_prime_test(i,40):
+            return i
+    else :
+        return 0
+
+
 # Aks primality test
 # def aks_prime_test(n):
 #     if n <= 1 :
@@ -62,15 +89,3 @@ def decompose(n):
 #             b+=1
 #             if a.is_integer() :
 #                 return False
-
-# Really basic prime generator
-
-def prime_gen(n,max):
-    for x in range(n, max +1 ) :
-        isPrime = True
-        for y in range(2, int(x ** 0.5) +1):
-            if x % y == 0 :
-                isPrime = False
-                break
-        if isPrime :
-            print(x)

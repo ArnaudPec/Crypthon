@@ -15,9 +15,18 @@ def calculate_totient_n(p,q):
 def calculate_n(p,q):
     return p*n
 
-# generate a nb bit modulus
-# def generate_npq(nb) :
-    # a = random.randrange(3,10)
+# Return primes q,p and modulus n = pq
+# Modulus length as a parameters
+# To avoid Fermat's little theorem factorization, p and q must be choosen of
+# slightly different size
+def generate_pqn(l):
+    if l %2 != 0:
+        l+=1
+    k = random.randrange(2,9) # ensure that p and q are of different size
+    p = prime.rand_prime(l//2 + k)
+    q = prime.rand_prime(l//2 - k)
+
+    return p,q,p*q
 
 # Return the encryption key d
 def calculate_d(totient,e):
@@ -25,16 +34,16 @@ def calculate_d(totient,e):
 
 # Extended euclidian Algorithm
 def extended_gcd(a, b):
-    (s, old_s) =( 0,1)
-    (t, old_t) =( 1,0)
-    (r, old_r) =( b, a)
+    (s, o_s) =( 0,1)
+    (t, o_t) =( 1,0)
+    (r, o_r) =( b, a)
 
     while r != 0 :
-        quotient = old_r // r
-        (old_r, r) = (r, old_r - quotient * r)
-        (old_s, s) = (s, old_s - quotient * s)
-        (old_t, t) = (t, old_t - quotient * t)
-    return old_t
+        quotient = o_r // r
+        (o_r, r) = (r, o_r - quotient * r)
+        (o_s, s) = (s, o_s - quotient * s)
+        (o_t, t) = (t, o_t - quotient * t)
+    return o_t
 
 #Encryption
 def encrypt(n,m,e):
