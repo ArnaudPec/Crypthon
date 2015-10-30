@@ -12,7 +12,7 @@ def fermat_prime_test(n):
     else :
         a = random.random_integers(1,n)
         # if a**(n-1) % n == 1: TO SLOW
-        if pow(a,n-1,n) == 1 : 
+        if pow(a,n-1,n) == 1 :
             return True
         else :
             return False
@@ -64,7 +64,7 @@ def prime_gen(n,max):
 # Random prime generator
 # returns a prime between 2^n and 2^+1 (for n>32)
 
-def rand_prime(n):
+def gen_rand_prime(n):
     if n<32:
         n=32
     k = random.randrange(1,n-1)

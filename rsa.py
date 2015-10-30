@@ -1,13 +1,14 @@
 #RSA
+#This fle contains a really basic implementation of RSA,
+# and functions to encrypt and decrypt a short text message
 
-import random
 import prime
 
-p = 24564797371
-q = 145647973
 e= 2 ** 16 +1
 
 # Return totient of n
+# Calculated by computing (p-1)(q-1)
+
 def calculate_totient_n(p,q):
     return (p-1)*(q-1)
 
@@ -22,9 +23,9 @@ def calculate_n(p,q):
 def generate_pqn(l):
     if l %2 != 0:
         l+=1
-    k = random.randrange(2,9) # ensure that p and q are of different size
-    p = prime.rand_prime(l//2 + k)
-    q = prime.rand_prime(l//2 - k)
+    k = prime.random.randrange(2,9) # ensure that p and q are of different size
+    p = prime.gen_rand_prime(l//2 + k)
+    q = prime.gen_rand_prime(l//2 - k)
 
     return p,q,p*q
 
@@ -67,3 +68,26 @@ def conv_to_ascii(number):
     for i in range(0,len(l),2):
         s+= chr(int("".join([l[i],l[i+1]])))
     return s
+
+# Setting up and testing the Algorithm
+def test():
+    l = int(input("Enter a key length :"))
+    e = pow(2,16)+1
+    p,q,n = generate_pqn(l)
+    totient = calculate_totient_n(p,q)
+    d = calculate_d(totient,e)
+
+    print("Public key :",(e,n))
+    print("Secrete key :",(d,n))
+
+    m= input('Enter a text message (154 char max) :')
+    while len(m)>154:
+        m= input('Enter a text message (154 char max) :')
+
+    cipherText = encrypt(n,conv_to_number(m),e)
+
+    print("cipherText :\n",cipherText)
+
+    message = decrypt(n, cipherText, d)
+    mc = conv_to_ascii(message)
+    print("message : \n", mc )
