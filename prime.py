@@ -3,14 +3,14 @@
 from math import gcd, log2
 import random
 
-#Implement a good primality test
+## Implement a good primality test
 
 # Femat's primality test
 def fermat_prime_test(n):
     if n <= 1 :
         return False
     else :
-        a = random.random_integers(1,n)
+        a = random.randrange(1,n)
         # if a**(n-1) % n == 1: TO SLOW
         if pow(a,n-1,n) == 1 :
             return True
@@ -61,14 +61,33 @@ def prime_gen(n,max):
         if isPrime :
             print(x)
 
+# Find a primitive root
+# p is prime
+def primitive_r(p):
+    a = 2
+    t = p -1
+    while a < pow(p,1/2) :
+        b = pow(a,t//a,p)
+        if b != 1:
+            return a
+        a = nextPrime(a)
+    else :
+        return False
+
+def nextPrime(a):
+    while True :
+        a += 1
+        if fermat_prime_test(a):
+            return a
+
+
 # Random prime generator
 # returns a prime between 2^n and 2^+1 (for n>32)
-
 def gen_rand_prime(n):
     if n<32:
         n=32
     k = random.randrange(1,n-1)
-    for i in range(pow(2,n)+pow(2,k),pow(2,n+1)):
+    for i in range(pow(2,n)+pow(2,k)+1,pow(2,n+1),2):
         if miller_rab_prime_test(i,40):
             return i
     else :

@@ -4,13 +4,14 @@ My tiny implementation of classic asymmetric ciphers.
 
 ## Features :
 * Primality tests : Fermat / Miller-Rabin
-* Basic random prime generator
+* Basic random prime generator / primitive root finder
 * RSA encryption/decryption
+* Really basic ElGamal encryption/decryption
 
 ### To do :
 * Implement AKS primality test
-* Implement ElGamal encryption/decryption
 * Solve message size problem in RSA
+* Improve power computation in ElGamal
 
 ### Note :
-Does not intend to be secure nor seek performance
+This implementation does not intend to be secure nor seek performance.
